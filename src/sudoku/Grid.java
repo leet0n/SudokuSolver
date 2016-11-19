@@ -1,23 +1,13 @@
 package sudoku;
 
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.io.FileNotFoundException;
+import java.lang.SecurityException;
 import java.io.IOException;
 import java.io.BufferedReader;
 
 public class Grid implements GridInterface {
-	
-	public static void main(String[] args){
-		long startTime = System.currentTimeMillis();
-		
-		Grid sudokuTest = new Grid();
-		sudokuTest.initFromFile("sudokuWC");
-		if (Backtracking.backtracking(sudokuTest)) sudokuTest.printGrid();
-		else System.out.println("Pas de solution");		
-		
-		long endTime = System.currentTimeMillis();
-		System.out.println("\nThat took " + (endTime - startTime) + " milliseconds");
-	}
 	
 	private CellInterface[][] grid;
 	private boolean[][] rows;
@@ -93,26 +83,48 @@ public class Grid implements GridInterface {
 	public void initFromFile(String name) {
 		
 		FileReader fileInput;
-		BufferedReader writeFile;
+		BufferedReader readFile;
 		
 		try{
 			fileInput = new FileReader(name);
-			writeFile = new BufferedReader(fileInput);
+			readFile = new BufferedReader(fileInput);
 			initRCB();
 			int value;
 			
 			for(int i = 0; i < 9; i++){
 				for(int j = 0; j < 9; j++){
-					value = Character.getNumericValue(writeFile.read()) - 1;
+					value = Character.getNumericValue(readFile.read()) - 1;
 					grid[i][j].setValue(value);
 				}
-				writeFile.readLine();
+				readFile.readLine();
 			}
-			writeFile.close();
+			readFile.close();
 			
 		} catch(FileNotFoundException e){
 			e.printStackTrace();			
 		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void saveGrid(String name) {
+		PrintWriter writeFile;
+		
+		try{
+			writeFile = new PrintWriter(name);
+			
+			for(int i = 0; i < 9; i++){
+				for(int j = 0; j < 9; j++){
+					writeFile.print(grid[i][j].getValue()+1);
+				}
+				writeFile.println();
+			}
+			writeFile.close();
+			
+		} catch(FileNotFoundException e){
+			e.printStackTrace();
+		} catch(SecurityException e){
 			e.printStackTrace();
 		}
 	}
