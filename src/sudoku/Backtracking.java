@@ -37,8 +37,8 @@ public class Backtracking {
 		return false;
 	}
 	
-	public static void backtracking(GridInterface grid){
+	public static boolean backtracking(GridInterface grid){
 		Stack<CellInterface> sortedGrid = getSortedGrid(grid);
-		resolveGrid(sortedGrid);
+		return resolveGrid(sortedGrid);
 	}
 }

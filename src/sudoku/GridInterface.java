@@ -1,7 +1,7 @@
 package sudoku;
 
 public interface GridInterface {
-	public void printGrid();
+	public void initFromFile(String name);
 	public boolean[] getRow(int i);
 	public boolean[] getColumn(int j);
 	public boolean[] getBlock(int i, int j);
