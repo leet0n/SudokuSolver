@@ -1,7 +1,6 @@
 package sudoku;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.BufferedReader;
@@ -9,10 +8,15 @@ import java.io.BufferedReader;
 public class Grid implements GridInterface {
 	
 	public static void main(String[] args){
+		long startTime = System.currentTimeMillis();
+		
 		Grid sudokuTest = new Grid();
 		sudokuTest.initFromFile("sudokuWC");
 		if (Backtracking.backtracking(sudokuTest)) sudokuTest.printGrid();
-		else System.out.println("Pas de solution");
+		else System.out.println("Pas de solution");		
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println("\nThat took " + (endTime - startTime) + " milliseconds");
 	}
 	
 	private CellInterface[][] grid;
@@ -20,20 +24,20 @@ public class Grid implements GridInterface {
 	private boolean[][] columns;
 	private boolean[][] blocks;
 	
-	private void init(){
-		grid    = new CellInterface[9][9];
+	private void initRCB(){		
 		rows    = new boolean[9][9];
 		columns = new boolean[9][9];
 		blocks  = new boolean[9][9];
 	}
 	
 	public Grid(){
-		init();
+		grid = new CellInterface[9][9];
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
 				grid[i][j] = new Cell(-1, i, j, this);
 			}
 		}
+		initRCB();
 	}
 
 	public void printGrid() {
@@ -94,14 +98,13 @@ public class Grid implements GridInterface {
 		try{
 			fileInput = new FileReader(name);
 			writeFile = new BufferedReader(fileInput);
-			init();
+			initRCB();
 			int value;
 			
 			for(int i = 0; i < 9; i++){
 				for(int j = 0; j < 9; j++){
 					value = Character.getNumericValue(writeFile.read()) - 1;
-					grid[i][j] = new Cell(value, i, j, this);
-					if (value != -1) refreshRCB(i, j, value, true);
+					grid[i][j].setValue(value);
 				}
 				writeFile.readLine();
 			}
