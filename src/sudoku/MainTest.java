@@ -1,6 +1,6 @@
 package sudoku;
 
-public class Main {
+public class MainTest{
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
@@ -12,10 +12,6 @@ public class Main {
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("\nThat took " + (endTime - startTime) + " milliseconds\n");
-		
-		sudokuTest.saveGrid("saveTest");
-		sudokuTest.initFromFile("saveTest");
-		sudokuTest.printGrid();
 	}
 
 }
