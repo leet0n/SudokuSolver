@@ -2,8 +2,8 @@ package gui;
 
 public class Main {
 	
-	private final static int WIDTH = 816;
-	private final static int HEIGHT = 845;
+	private final static int WIDTH = 720;
+	private final static int HEIGHT = 720;
 	
 	public static void main(String[] args) {
 		MainWindow fen = new MainWindow(WIDTH, HEIGHT);
