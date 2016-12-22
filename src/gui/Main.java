@@ -2,13 +2,10 @@ package gui;
 
 public class Main {
 	
-	private final static int WIDTH = 720;
-	private final static int HEIGHT = 720;
+	private final static int BLOCKLENGTH = 80;
 	
 	public static void main(String[] args) {
-		MainWindow fen = new MainWindow(WIDTH, HEIGHT);
+		MainWindow fen = new MainWindow(BLOCKLENGTH);
 		fen.setTitle("Sudoku");
-		fen.setVisible(true);
 	}
-
 }
