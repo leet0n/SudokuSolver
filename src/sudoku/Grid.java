@@ -55,6 +55,11 @@ public class Grid implements GridInterface {
 	public boolean[] getBlock(int i, int j) {
 		return blocks[j/3 + 3*(i/3)];
 	}
+	
+	@Override
+	public CellInterface getCell(int i, int j){
+		return grid[i][j];
+	}
 
 	@Override
 	public CellInterface[][] getGrid() {
@@ -127,5 +132,16 @@ public class Grid implements GridInterface {
 		} catch(SecurityException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public Grid copy(){
+		Grid copy = new Grid();
+		CellInterface[][] copyGrid = copy.getGrid();
+		for(int i = 0; i < 9; i++){
+			for(int j = 0; j < 9; j++){
+				copyGrid[i][j].setValue(grid[i][j].getValue());
+			}
+		}
+		return copy;
 	}
 }
