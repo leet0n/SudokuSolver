@@ -94,20 +94,30 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	@Override
 	public void resolveSudoku() {
 		if (originalSudoku != null){
-			if (checkSudoku(originalSudoku, false)){
-				Grid temp = new Grid();
-				temp.copy(originalSudoku);
-				if (Backtracking.backtracking(temp)){
-					sudoku.copy(temp);
-					refreshPanel(Color.blue);
+			int response = JOptionPane.showConfirmDialog(this, 
+					"Solving the initial sudoku may overwrite your progression. Continue ?", 
+					"Solving sudoku", 
+					JOptionPane.YES_NO_OPTION);
+			switch (response){
+			case JOptionPane.YES_OPTION:
+				if (checkSudoku(originalSudoku, false)){
+					Grid temp = new Grid();
+					temp.copy(originalSudoku);
+					if (Backtracking.backtracking(temp)){
+						sudoku.copy(temp);
+						refreshPanel(Color.blue);
+					}
+					else{
+						JOptionPane.showMessageDialog(this, 
+								"No solutions found", "Result", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 				else{
-					JOptionPane.showMessageDialog(this, 
-							"No solutions found", "Result", JOptionPane.INFORMATION_MESSAGE);
+					originalSudoku = null;
 				}
-			}
-			else{
-				originalSudoku = null;
+				break;
+			case JOptionPane.NO_OPTION:
+				return;
 			}
 		}
 		else{
