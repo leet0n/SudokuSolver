@@ -162,21 +162,21 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    int returnVal = chooser.showOpenDialog(null);
 	    
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
-	       String path = chooser.getSelectedFile().getAbsolutePath();
-	       try{
-	    	   sudoku.initFromFile(path);
-	    	   originalSudoku = new Grid();
-	    	   originalSudoku.copy(sudoku);
-	    	   refreshPanel(Color.blue);
-	       }catch(FileNotFoundException e){
-	    	   JOptionPane.showMessageDialog(this, "File not found", 
+	    	String path = chooser.getSelectedFile().getAbsolutePath();
+	    	try{
+	    		sudoku.initFromFile(path);
+	    		originalSudoku = new Grid();
+	    		originalSudoku.copy(sudoku);
+	    		refreshPanel(Color.blue);
+	    	}catch(FileNotFoundException e){
+	    		JOptionPane.showMessageDialog(this, "File not found",
+	    				"Error", JOptionPane.ERROR_MESSAGE);
+	    		reinitPanel();
+	    	}catch(IOException e){
+	    		JOptionPane.showMessageDialog(this, "File cannot be read", 
 						"Error", JOptionPane.ERROR_MESSAGE);
-	    	   reinitPanel();
-	       }catch(IOException e){
-	    	   JOptionPane.showMessageDialog(this, "File cannot be read", 
-						"Error", JOptionPane.ERROR_MESSAGE);
-	    	   reinitPanel();
-	       }
+	    		reinitPanel();
+	    	}
 	    }
 	}
 
@@ -188,16 +188,16 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    int returnVal = chooser.showSaveDialog(null);
 	    
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
-	       String path = chooser.getSelectedFile().getAbsolutePath();
-	       try{
-	    	   sudoku.saveGrid(path);
-	       }catch(FileNotFoundException e){
-	    	   JOptionPane.showMessageDialog(this, "File not found", 
+	    	String path = chooser.getSelectedFile().getAbsolutePath();
+	    	try{
+	    		sudoku.saveGrid(path);
+	    	}catch(FileNotFoundException e){
+	    		JOptionPane.showMessageDialog(this, "File not found", 
 						"Error", JOptionPane.ERROR_MESSAGE);
-	       }catch(IOException e){
-	    	   JOptionPane.showMessageDialog(this, "File cannot be wrote", 
-						"Error", JOptionPane.ERROR_MESSAGE);
-	       }
+	    	}catch(IOException e){
+	    		JOptionPane.showMessageDialog(this, "File cannot be wrote", 
+	    				"Error", JOptionPane.ERROR_MESSAGE);
+	    	}
 	    }
 	}
 	
