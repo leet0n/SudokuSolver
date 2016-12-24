@@ -137,11 +137,16 @@ public class Grid implements GridInterface {
 	}
 	
 	public void copy(Grid original){
-		CellInterface[][] originalGrid = original.getGrid();
-		for(int i = 0; i < 9; i++){
-			for(int j = 0; j < 9; j++){
-				grid[i][j].setValue(originalGrid[i][j].getValue());
+		if (original != null){
+			CellInterface[][] originalGrid = original.getGrid();
+			for(int i = 0; i < 9; i++){
+				for(int j = 0; j < 9; j++){
+					grid[i][j].setValue(originalGrid[i][j].getValue());
+				}
 			}
+		}
+		else{
+			copy(new Grid());
 		}
 	}
 }

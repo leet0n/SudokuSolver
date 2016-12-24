@@ -65,7 +65,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 				return;
 		   }
 		}
-		sudoku = new Grid();
+		sudoku.copy(null);
 		refreshPanel(Color.black);
 	}
 
@@ -78,7 +78,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 		switch (response){
 		case JOptionPane.YES_OPTION:
 			if (originalSudoku == null){
-				sudoku = new Grid();
+				sudoku.copy(null);
 				refreshPanel(Color.black);
 			}
 			else{
@@ -94,15 +94,20 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	@Override
 	public void resolveSudoku() {
 		if (originalSudoku != null){
-			Grid temp = new Grid();
-			temp.copy(originalSudoku);
-			if (Backtracking.backtracking(temp)){
-				sudoku.copy(temp);
-				refreshPanel(Color.blue);
+			if (checkSudoku(originalSudoku, false)){
+				Grid temp = new Grid();
+				temp.copy(originalSudoku);
+				if (Backtracking.backtracking(temp)){
+					sudoku.copy(temp);
+					refreshPanel(Color.blue);
+				}
+				else{
+					JOptionPane.showMessageDialog(this, 
+							"No solutions found", "Result", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 			else{
-				JOptionPane.showMessageDialog(this, 
-						"No solutions found", "Result", JOptionPane.INFORMATION_MESSAGE);
+				originalSudoku = null;
 			}
 		}
 		else{
@@ -112,8 +117,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 		}
 	}
 
-	@Override
-	public void checkSudoku() {
+	private boolean checkSudoku(Grid argSudoku, boolean show) {
 		boolean completed = true;
 		boolean[][] rows = new boolean[9][9];
 		boolean[][] columns = new boolean[9][9];
@@ -122,7 +126,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 		
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				value = sudoku.getCell(i, j).getValue();
+				value = argSudoku.getCell(i, j).getValue();
 				if (completed && value == -1){
 					completed = false;
 				}
@@ -135,23 +139,29 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 							"Error", 
 							JOptionPane.ERROR_MESSAGE);
 					gridOfTextField[i][j].setForeground(Color.red);
-					return;
+					return false;
 				}
 			}
 		}
 		
-		if (completed){
+		if (completed && show){
 			JOptionPane.showMessageDialog(this,
 					"Congratulations, you have solved the sudoku ! ", 
 					"Result", 
 					JOptionPane.INFORMATION_MESSAGE);
 		}
-		else{
+		else if (show){
 			JOptionPane.showMessageDialog(this,
 					"No errors found", 
 					"Result", 
 					JOptionPane.INFORMATION_MESSAGE);
 		}
+		return true;
+	}
+	
+	@Override
+	public void checkSudoku(){
+		checkSudoku(sudoku, true);
 	}
 
 	@Override
