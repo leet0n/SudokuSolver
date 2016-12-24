@@ -3,8 +3,8 @@ package panel;
 public interface SudokuPanelInterface {
 	public void reinitPanel();
 	public void reinitSudoku();
-	public boolean resolveSudoku();
-	public boolean checkSudoku();
-	public boolean initSudoku();
-	public boolean saveSudoku();
+	public void resolveSudoku();
+	public void checkSudoku();
+	public void initSudoku();
+	public void saveSudoku();
 }

@@ -1,8 +1,11 @@
 package sudoku;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public interface GridInterface {
-	public void initFromFile(String name);
-	public void saveGrid(String name);
+	public void initFromFile (String path) throws FileNotFoundException, IOException;
+	public void saveGrid(String path) throws FileNotFoundException, IOException;
 	public boolean[] getRow(int i);
 	public boolean[] getColumn(int j);
 	public boolean[] getBlock(int i, int j);

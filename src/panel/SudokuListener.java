@@ -1,12 +1,13 @@
 package panel;
 
 import java.awt.Color;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import sudoku.CellInterface;
 
+import sudoku.CellInterface;
 
 public class SudokuListener implements DocumentListener {
 
@@ -49,6 +50,9 @@ public class SudokuListener implements DocumentListener {
 					field.setForeground(Color.red);
 					JOptionPane.showMessageDialog(null, "Invalid character", 
 							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					cell.setValue(-1);
 				}
 			}
 		}

@@ -1,9 +1,10 @@
 package sudoku;
 
+import java.lang.SecurityException;
+
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
-import java.lang.SecurityException;
 import java.io.IOException;
 import java.io.BufferedReader;
 
@@ -31,6 +32,7 @@ public class Grid implements GridInterface {
 	}
 
 	public void printGrid() {
+		System.out.println();
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
 				System.out.print((grid[i][j].getValue()+1) + " ");
@@ -85,13 +87,13 @@ public class Grid implements GridInterface {
 	}
 
 	@Override
-	public void initFromFile(String name) {
+	public void initFromFile(String path) throws FileNotFoundException, IOException {
 		
 		FileReader fileInput;
 		BufferedReader readFile;
 		
 		try{
-			fileInput = new FileReader(name);
+			fileInput = new FileReader(path);
 			readFile = new BufferedReader(fileInput);
 			initRCB();
 			int value;
@@ -106,18 +108,18 @@ public class Grid implements GridInterface {
 			readFile.close();
 			
 		} catch(FileNotFoundException e){
-			e.printStackTrace();			
+			throw e;
 		} catch (IOException e){
-			e.printStackTrace();
+			throw e;
 		}
 	}
 
 	@Override
-	public void saveGrid(String name) {
+	public void saveGrid(String path) throws FileNotFoundException, IOException {
 		PrintWriter writeFile;
 		
 		try{
-			writeFile = new PrintWriter(name);
+			writeFile = new PrintWriter(path);
 			
 			for(int i = 0; i < 9; i++){
 				for(int j = 0; j < 9; j++){
@@ -128,20 +130,18 @@ public class Grid implements GridInterface {
 			writeFile.close();
 			
 		} catch(FileNotFoundException e){
-			e.printStackTrace();
+			throw e;
 		} catch(SecurityException e){
-			e.printStackTrace();
+			throw e;
 		}
 	}
 	
-	public Grid copy(){
-		Grid copy = new Grid();
-		CellInterface[][] copyGrid = copy.getGrid();
+	public void copy(Grid original){
+		CellInterface[][] originalGrid = original.getGrid();
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				copyGrid[i][j].setValue(grid[i][j].getValue());
+				grid[i][j].setValue(originalGrid[i][j].getValue());
 			}
 		}
-		return copy;
 	}
 }
