@@ -19,8 +19,8 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 
 	private static final long serialVersionUID = 1L;
 	
-	private SudokuTextField[][] gridOfTextField = new SudokuTextField[9][9];
-	private Grid sudoku = new Grid();
+	private final SudokuTextField[][] GRIDOFTEXTFIELD = new SudokuTextField[9][9];
+	private final Grid SUDOKU = new Grid();
 	private Grid originalSudoku;
 
 	public SudokuPanel(int blockLength) {
@@ -35,13 +35,18 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 				block = new JPanel(new GridLayout(3, 3));
 				for(int i = 0; i < 3; i++){
 					for(int j = 0; j < 3; j++){
-						gridOfTextField[3*k + i][3*l + j] = new SudokuTextField(1);
-						gridOfTextField[3*k + i][3*l + j].setBorder(BorderFactory.createLineBorder(Color.black, 1));
-						gridOfTextField[3*k + i][3*l + j].setHorizontalAlignment(JTextField.CENTER);
-						gridOfTextField[3*k + i][3*l + j].setFont(new Font("SansSerif", Font.BOLD, 2*blockLength/3));
-						ls = new SudokuListener(sudoku.getCell(3*k + i, 3*l + j), gridOfTextField[3*k + i][3*l + j]);
-						gridOfTextField[3*k + i][3*l + j].getDocument().addDocumentListener(ls);
-						block.add(gridOfTextField[3*k + i][3*l + j]);
+						GRIDOFTEXTFIELD[3*k + i][3*l + j] = new SudokuTextField(1);
+						GRIDOFTEXTFIELD[3*k + i][3*l + j]
+								.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+						GRIDOFTEXTFIELD[3*k + i][3*l + j]
+								.setHorizontalAlignment(JTextField.CENTER);
+						GRIDOFTEXTFIELD[3*k + i][3*l + j]
+								.setFont(new Font("SansSerif", Font.BOLD, 2*blockLength/3));
+						ls = new SudokuListener(SUDOKU.getCell(3*k + i, 3*l + j), 
+								GRIDOFTEXTFIELD[3*k + i][3*l + j]);
+						GRIDOFTEXTFIELD[3*k + i][3*l + j]
+								.getDocument().addDocumentListener(ls);
+						block.add(GRIDOFTEXTFIELD[3*k + i][3*l + j]);
 					}
 				}
 				block.setBorder(BorderFactory.createLineBorder(Color.black, 3));
@@ -65,7 +70,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 				return;
 		   }
 		}
-		sudoku.copy(null);
+		SUDOKU.copy(null);
 		refreshPanel(Color.black);
 	}
 
@@ -78,11 +83,11 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 		switch (response){
 		case JOptionPane.YES_OPTION:
 			if (originalSudoku == null){
-				sudoku.copy(null);
+				SUDOKU.copy(null);
 				refreshPanel(Color.black);
 			}
 			else{
-				sudoku.copy(originalSudoku);
+				SUDOKU.copy(originalSudoku);
 				refreshPanel(Color.blue);
 			}
 			break;
@@ -104,12 +109,13 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 					Grid temp = new Grid();
 					temp.copy(originalSudoku);
 					if (Backtracking.backtracking(temp)){
-						sudoku.copy(temp);
+						SUDOKU.copy(temp);
 						refreshPanel(Color.blue);
 					}
 					else{
 						JOptionPane.showMessageDialog(this, 
-								"No solutions found", "Result", JOptionPane.INFORMATION_MESSAGE);
+								"No solutions found", "Result",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 				else{
@@ -122,7 +128,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 		}
 		else{
 			originalSudoku = new Grid();
-			originalSudoku.copy(sudoku);
+			originalSudoku.copy(SUDOKU);
 			resolveSudoku();
 		}
 	}
@@ -148,7 +154,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 							"Error found at line " + (i+1) + ", column " + (j+1), 
 							"Error", 
 							JOptionPane.ERROR_MESSAGE);
-					gridOfTextField[i][j].setForeground(Color.red);
+					GRIDOFTEXTFIELD[i][j].setForeground(Color.red);
 					return false;
 				}
 			}
@@ -171,7 +177,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	
 	@Override
 	public void checkSudoku(){
-		checkSudoku(sudoku, true);
+		checkSudoku(SUDOKU, true);
 	}
 
 	@Override
@@ -184,9 +190,9 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
 	    	String path = chooser.getSelectedFile().getAbsolutePath();
 	    	try{
-	    		sudoku.initFromFile(path);
+	    		SUDOKU.initFromFile(path);
 	    		originalSudoku = new Grid();
-	    		originalSudoku.copy(sudoku);
+	    		originalSudoku.copy(SUDOKU);
 	    		refreshPanel(Color.blue);
 	    	}catch(FileNotFoundException e){
 	    		JOptionPane.showMessageDialog(this, "File not found",
@@ -210,7 +216,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
 	    	String path = chooser.getSelectedFile().getAbsolutePath();
 	    	try{
-	    		sudoku.saveGrid(path);
+	    		SUDOKU.saveGrid(path);
 	    	}catch(FileNotFoundException e){
 	    		JOptionPane.showMessageDialog(this, "File not found", 
 						"Error", JOptionPane.ERROR_MESSAGE);
@@ -225,13 +231,13 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 		int value;
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				value = sudoku.getCell(i, j).getValue() + 1;
+				value = SUDOKU.getCell(i, j).getValue() + 1;
 				if (value > 0){
-					gridOfTextField[i][j].setText(Integer.toString(value));
-					gridOfTextField[i][j].setForeground(color);
+					GRIDOFTEXTFIELD[i][j].setText(Integer.toString(value));
+					GRIDOFTEXTFIELD[i][j].setForeground(color);
 				}
 				else{
-					gridOfTextField[i][j].setText("");
+					GRIDOFTEXTFIELD[i][j].setText("");
 				}
 			}
 		}

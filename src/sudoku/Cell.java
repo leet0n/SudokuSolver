@@ -3,16 +3,16 @@ package sudoku;
 public class Cell implements CellInterface {
 	
 	private int value;
-	private int posR;
-	private int posC;
-	private GridInterface masterGrid;
+	private final int POSR;
+	private final int POSC;
+	private final GridInterface MASTERGRID;
 	
 	
 	public Cell(int value, int posR, int posC, GridInterface masterGrid){
 		this.value = value;
-		this.posR = posR;
-		this.posC = posC;
-		this.masterGrid = masterGrid;
+		this.POSR = posR;
+		this.POSC = posC;
+		this.MASTERGRID = masterGrid;
 	}
 
 	@Override
@@ -22,16 +22,16 @@ public class Cell implements CellInterface {
 
 	@Override
 	public void setValue(int value) {
-		if (this.value != -1) masterGrid.refreshRCB(posR, posC, this.value, false);
+		if (this.value != -1) MASTERGRID.refreshRCB(POSR, POSC, this.value, false);
 		this.value = value;
-		if (value != -1) masterGrid.refreshRCB(posR, posC, value, true);
+		if (value != -1) MASTERGRID.refreshRCB(POSR, POSC, value, true);
 	}
 
 	@Override
 	public boolean isPossible(int value) {
-		boolean[] row = masterGrid.getRow(posR);
-		boolean[] column = masterGrid.getColumn(posC);
-		boolean[] block = masterGrid.getBlock(posR, posC);
+		boolean[] row = MASTERGRID.getRow(POSR);
+		boolean[] column = MASTERGRID.getColumn(POSC);
+		boolean[] block = MASTERGRID.getBlock(POSR, POSC);
 		return (!row[value] && !column[value] && !block[value]);
 	}
 

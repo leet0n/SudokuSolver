@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 
 public class Grid implements GridInterface {
 	
-	private CellInterface[][] grid;
+	private final CellInterface[][] GRID;
 	private boolean[][] rows;
 	private boolean[][] columns;
 	private boolean[][] blocks;
@@ -22,10 +22,10 @@ public class Grid implements GridInterface {
 	}
 	
 	public Grid(){
-		grid = new CellInterface[9][9];
+		GRID = new CellInterface[9][9];
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				grid[i][j] = new Cell(-1, i, j, this);
+				GRID[i][j] = new Cell(-1, i, j, this);
 			}
 		}
 		initRCB();
@@ -35,7 +35,7 @@ public class Grid implements GridInterface {
 		System.out.println();
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				System.out.print((grid[i][j].getValue()+1) + " ");
+				System.out.print((GRID[i][j].getValue()+1) + " ");
 				if (j == 2 || j == 5) System.out.print(" ");
 			}
 			if (i == 2 || i == 5) System.out.println();
@@ -60,12 +60,12 @@ public class Grid implements GridInterface {
 	
 	@Override
 	public CellInterface getCell(int i, int j){
-		return grid[i][j];
+		return GRID[i][j];
 	}
 
 	@Override
 	public CellInterface[][] getGrid() {
-		return grid;
+		return GRID;
 	}
 	
 	@Override
@@ -80,7 +80,7 @@ public class Grid implements GridInterface {
 		int[][] gridOfPossibilities = new int[9][9];
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				gridOfPossibilities[i][j] = grid[i][j].getNumberOfPossibilities();
+				gridOfPossibilities[i][j] = GRID[i][j].getNumberOfPossibilities();
 			}
 		}
 		return gridOfPossibilities;
@@ -101,7 +101,7 @@ public class Grid implements GridInterface {
 			for(int i = 0; i < 9; i++){
 				for(int j = 0; j < 9; j++){
 					value = Character.getNumericValue(readFile.read()) - 1;
-					grid[i][j].setValue(value);
+					GRID[i][j].setValue(value);
 				}
 				readFile.readLine();
 			}
@@ -123,7 +123,7 @@ public class Grid implements GridInterface {
 			
 			for(int i = 0; i < 9; i++){
 				for(int j = 0; j < 9; j++){
-					writeFile.print(grid[i][j].getValue()+1);
+					writeFile.print(GRID[i][j].getValue()+1);
 				}
 				writeFile.println();
 			}
@@ -141,7 +141,7 @@ public class Grid implements GridInterface {
 			CellInterface[][] originalGrid = original.getGrid();
 			for(int i = 0; i < 9; i++){
 				for(int j = 0; j < 9; j++){
-					grid[i][j].setValue(originalGrid[i][j].getValue());
+					GRID[i][j].setValue(originalGrid[i][j].getValue());
 				}
 			}
 		}

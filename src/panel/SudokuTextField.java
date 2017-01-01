@@ -10,11 +10,11 @@ public class SudokuTextField extends JTextField {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int limit;
+	private final int LIMIT;
 
 	public SudokuTextField(int limit) {
         super();
-        this.limit = limit;
+        this.LIMIT = limit;
     }
 
 	protected Document createDefaultModel() {
@@ -29,7 +29,7 @@ public class SudokuTextField extends JTextField {
         public void insertString(int offset, String  str, AttributeSet attr) throws BadLocationException{
             if (str == null) return;
 
-            if ((getLength() + str.length()) <= limit) {
+            if ((getLength() + str.length()) <= LIMIT) {
                 super.insertString(offset, str, attr);
             }
         }
