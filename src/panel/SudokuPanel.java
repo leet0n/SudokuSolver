@@ -26,7 +26,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	public SudokuPanel(int blockLength) {
 		super(new GridLayout(3, 3));
 		setBackground(Color.white);
-		setBorder(BorderFactory.createLineBorder(Color.black, 3));
+		setBorder(BorderFactory.createLineBorder(new Color(44, 62, 80), 3));
 		
 		JPanel block;
 		SudokuListener ls;
@@ -37,7 +37,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 					for(int j = 0; j < 3; j++){
 						GRIDOFTEXTFIELD[3*k + i][3*l + j] = new SudokuTextField(1);
 						GRIDOFTEXTFIELD[3*k + i][3*l + j]
-								.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+								.setBorder(BorderFactory.createLineBorder(new Color(44, 62, 80), 1));
 						GRIDOFTEXTFIELD[3*k + i][3*l + j]
 								.setHorizontalAlignment(JTextField.CENTER);
 						GRIDOFTEXTFIELD[3*k + i][3*l + j]
@@ -49,7 +49,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 						block.add(GRIDOFTEXTFIELD[3*k + i][3*l + j]);
 					}
 				}
-				block.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+				block.setBorder(BorderFactory.createLineBorder(new Color(44, 62, 80), 3));
 				add(block);
 			}
 		}
@@ -88,7 +88,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 			}
 			else{
 				SUDOKU.copy(originalSudoku);
-				refreshPanel(Color.blue);
+				refreshPanel(new Color(34, 167, 240));
 			}
 			break;
 		case JOptionPane.NO_OPTION:
@@ -110,7 +110,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 					temp.copy(originalSudoku);
 					if (Backtracking.backtracking(temp)){
 						SUDOKU.copy(temp);
-						refreshPanel(Color.blue);
+						refreshPanel(new Color(34, 167, 240));
 					}
 					else{
 						JOptionPane.showMessageDialog(this, 
@@ -154,13 +154,14 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 							"Error found at line " + (i+1) + ", column " + (j+1), 
 							"Error", 
 							JOptionPane.ERROR_MESSAGE);
-					GRIDOFTEXTFIELD[i][j].setForeground(Color.red);
+					GRIDOFTEXTFIELD[i][j].setForeground(new Color(231, 76, 60));
 					return false;
 				}
 			}
 		}
 		
 		if (completed && show){
+			refreshPanel(new Color(46, 204, 113));
 			JOptionPane.showMessageDialog(this,
 					"Congratulations, you have solved the sudoku ! ", 
 					"Result", 
@@ -193,7 +194,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    		SUDOKU.initFromFile(path);
 	    		originalSudoku = new Grid();
 	    		originalSudoku.copy(SUDOKU);
-	    		refreshPanel(Color.blue);
+	    		refreshPanel(new Color(34, 167, 240));
 	    	}catch(FileNotFoundException e){
 	    		JOptionPane.showMessageDialog(this, "File not found",
 	    				"Error", JOptionPane.ERROR_MESSAGE);
