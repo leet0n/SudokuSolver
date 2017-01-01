@@ -14,6 +14,6 @@ public class SudokuMenuBar extends JMenuBar {
 		add(new FileMenu(frame, panel));
 		add(new SudokuMenu(frame, panel));
 		add(new ViewMenu(frame));
-		add(new AboutMenu(frame));
+		add(new HelpMenu(frame));
 	}
 }

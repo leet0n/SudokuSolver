@@ -20,14 +20,14 @@ public class FileMenu extends JMenu {
 	public FileMenu(MainFrame frame, SudokuPanel panel){
 		super("File");
 		
-		JMenuItem emptySudoku = new JMenuItem("Empty sudoku");
+		JMenuItem emptySudoku = new JMenuItem("New Sudoku");
 		emptySudoku.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				panel.reinitPanel();
 			}
 		});
-		emptySudoku.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+		emptySudoku.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 		add(emptySudoku);
 		
 		JMenuItem open = new JMenuItem("Open");

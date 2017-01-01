@@ -47,6 +47,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 								GRIDOFTEXTFIELD[3*k + i][3*l + j]);
 						GRIDOFTEXTFIELD[3*k + i][3*l + j]
 								.getDocument().addDocumentListener(ls);
+						GRIDOFTEXTFIELD[3*k + i][3*l + j].addFocusListener(ls);
 						block.add(GRIDOFTEXTFIELD[3*k + i][3*l + j]);
 					}
 				}

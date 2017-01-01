@@ -1,15 +1,18 @@
 package panel;
 
 import java.awt.Color;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Caret;
 
 import sudoku.CellInterface;
 
-public class SudokuListener implements DocumentListener {
+public class SudokuListener implements DocumentListener, FocusListener {
 
 	private final CellInterface CELL;
 	private final JTextField FIELD;
@@ -56,5 +59,15 @@ public class SudokuListener implements DocumentListener {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void focusGained(FocusEvent ev) {
+		FIELD.setBackground(new Color(245, 215, 110));
+	}
+
+	@Override
+	public void focusLost(FocusEvent ev) {
+		FIELD.setBackground(Color.white);
 	}
 }
