@@ -22,6 +22,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	private final SudokuTextField[][] GRIDOFTEXTFIELD = new SudokuTextField[9][9];
 	private final Grid SUDOKU = new Grid();
 	private Grid originalSudoku;
+	private String path;
 
 	public SudokuPanel(int blockLength) {
 		super(new GridLayout(3, 3));
@@ -65,6 +66,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 			switch (response){
 			case JOptionPane.YES_OPTION:
 				originalSudoku = null;
+				path = null;
 				break;
 			case JOptionPane.NO_OPTION:
 				return;
@@ -189,7 +191,7 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    int returnVal = chooser.showOpenDialog(null);
 	    
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
-	    	String path = chooser.getSelectedFile().getAbsolutePath();
+	    	this.path = chooser.getSelectedFile().getAbsolutePath();
 	    	try{
 	    		SUDOKU.initFromFile(path);
 	    		originalSudoku = new Grid();
@@ -199,31 +201,55 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    		JOptionPane.showMessageDialog(this, "File not found",
 	    				"Error", JOptionPane.ERROR_MESSAGE);
 	    		reinitPanel();
+	    		path = null;
 	    	}catch(IOException e){
 	    		JOptionPane.showMessageDialog(this, "File cannot be read", 
 						"Error", JOptionPane.ERROR_MESSAGE);
 	    		reinitPanel();
+	    		path = null;
 	    	}
 	    }
 	}
+	
+	@Override
+	public void saveSudoku(){
+		if (path == null){
+			saveSudokuAs();
+		}
+		else{
+			try{
+	    		SUDOKU.saveGrid(path);
+	    	}catch(FileNotFoundException e){
+	    		JOptionPane.showMessageDialog(this, "File not found", 
+						"Error", JOptionPane.ERROR_MESSAGE);
+	    		path = null;
+	    	}catch(IOException e){
+	    		JOptionPane.showMessageDialog(this, "File cannot be wrote", 
+	    				"Error", JOptionPane.ERROR_MESSAGE);
+	    		path = null;
+	    	}
+		}
+	}
 
 	@Override
-	public void saveSudoku() {
+	public void saveSudokuAs() {
 		JFileChooser chooser = new JFileChooser("data");
 	    FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files", "txt");
 	    chooser.setFileFilter(filter);
 	    int returnVal = chooser.showSaveDialog(null);
 	    
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
-	    	String path = chooser.getSelectedFile().getAbsolutePath();
+	    	this.path = chooser.getSelectedFile().getAbsolutePath();
 	    	try{
 	    		SUDOKU.saveGrid(path);
 	    	}catch(FileNotFoundException e){
 	    		JOptionPane.showMessageDialog(this, "File not found", 
 						"Error", JOptionPane.ERROR_MESSAGE);
+	    		path = null;
 	    	}catch(IOException e){
 	    		JOptionPane.showMessageDialog(this, "File cannot be wrote", 
 	    				"Error", JOptionPane.ERROR_MESSAGE);
+	    		path = null;
 	    	}
 	    }
 	}

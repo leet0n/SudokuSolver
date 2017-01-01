@@ -40,14 +40,24 @@ public class FileMenu extends JMenu {
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		add(open);
 		
-		JMenuItem saveAs = new JMenuItem("Save as");
-		saveAs.addActionListener(new ActionListener(){
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				panel.saveSudoku();
 			}
 		});
-		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		add(save);
+		
+		JMenuItem saveAs = new JMenuItem("Save as");
+		saveAs.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panel.saveSudokuAs();
+			}
+		});
+		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK + KeyEvent.SHIFT_MASK));
 		add(saveAs);
 		
 		JMenuItem quit = new JMenuItem("Quit");

@@ -7,4 +7,5 @@ public interface SudokuPanelInterface {
 	public void checkSudoku();
 	public void initSudoku();
 	public void saveSudoku();
+	public void saveSudokuAs();
 }
