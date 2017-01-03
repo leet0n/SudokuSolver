@@ -242,6 +242,10 @@ public class SudokuPanel extends JPanel implements SudokuPanelInterface{
 	    if(returnVal == JFileChooser.APPROVE_OPTION){
 	    	this.path = chooser.getSelectedFile().getAbsolutePath();
 	    	try{
+	    		int end = path.length();
+	    		if (end < 5 || !path.substring(end - 4).equals(".txt")){
+	    			path = path.concat(".txt");
+	    		}
 	    		SUDOKU.saveGrid(path);
 	    	}catch(FileNotFoundException e){
 	    		JOptionPane.showMessageDialog(this, "File not found", 
